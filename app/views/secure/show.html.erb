@@ -1,9 +1,36 @@
-<div class="row">
-  <div class="span12">
-    <h1>My Super Secure Stuff</h1>
+<div class="row" ng-app="AngulaRails" ng-controller="SessionsController">
+	
+  <div class="login" ng-show="!authorized()">
+    <div class="alert warning">
+      Please Login to access my secrets
+    </div>
+    
+    <%= form_for(User.new, :as => "user", :url => session_path("user")) do |f| %>
+	  <div class="control-group">
+	    <%= f.label :email %>
+	    <div class="controls">
+	      <%= f.email_field :email %>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <%= f.label :password %>
+	    <div class="controls">
+	      <%= f.password_field :password %>
+	    </div>
+	  </div>
+	  <%= f.submit "Sign In", class: "btn btn-large btn-primary" %>
+    <% end %>
+    
+  </div>
+  
+  <div class="secure" ng-show="authorized()">
     <dl>
       <dt>My Luggage (and planetary shield's Password)</dt>
       <dd>1-2-3-4-5</dd>
     </dl>
+    <div class="pull-right">
+      <%= link_to "Sign Out", destroy_user_session_path, class: "btn", method: :delete %>
+    </div>
   </div>
 </div>
+
